@@ -1,0 +1,38 @@
+:root {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --ink: #16382c;
+  --ink-soft: #2a4f40;
+  --muted: #5f7a6e;
+  --forest: #1a5c45;
+  --teal: #1f9e90;
+  --coral: #e85d4c;
+  --line: rgba(26, 92, 69, 0.22);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--ink);
+  background-color: #f7f3eb;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100svh;
+}
+
+button {
+  font: inherit;
+}
+
+#root {
+  min-height: 100svh;
+}
