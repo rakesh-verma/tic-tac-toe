@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150">
+  <rect width="150" height="150" fill="#ffffff"/>
+  <!-- shirt -->
+  <path d="M28 150 Q40 118 75 118 Q110 118 122 150 Z" fill="#6e2433"/>
+  <!-- blue collar with yellow trim -->
+  <path d="M48 122 Q75 112 102 122 L96 136 Q75 126 54 136 Z" fill="#1c355f"/>
+  <path d="M48 122 Q75 112 102 122" fill="none" stroke="#e6c84a" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- neck -->
+  <path d="M62 104 Q75 110 88 104 L88 122 Q75 128 62 122 Z" fill="#d7a57a"/>
+  <!-- face -->
+  <ellipse cx="75" cy="78" rx="33" ry="37" fill="#e4b48c"/>
+  <!-- ears -->
+  <ellipse cx="43" cy="82" rx="6.5" ry="9" fill="#d7a57a"/>
+  <ellipse cx="107" cy="82" rx="6.5" ry="9" fill="#d7a57a"/>
+  <!-- curly hair -->
+  <g fill="#17120f">
+    <circle cx="42" cy="58" r="13"/>
+    <circle cx="52" cy="42" r="14"/>
+    <circle cx="68" cy="32" r="15"/>
+    <circle cx="86" cy="30" r="15"/>
+    <circle cx="102" cy="40" r="14"/>
+    <circle cx="112" cy="56" r="13"/>
+    <circle cx="38" cy="74" r="11"/>
+    <circle cx="114" cy="74" r="11"/>
+    <circle cx="58" cy="50" r="12"/>
+    <circle cx="78" cy="40" r="13"/>
+    <circle cx="96" cy="50" r="12"/>
+    <path d="M40 78 Q44 50 75 38 Q106 50 110 78 L104 68 Q75 48 46 68 Z"/>
+  </g>
+  <!-- eyebrows -->
+  <path d="M54 72 Q62 67 71 72" fill="none" stroke="#2a2018" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M79 72 Q88 67 96 72" fill="none" stroke="#2a2018" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- eyes -->
+  <ellipse cx="62" cy="83" rx="6" ry="7" fill="#fff"/>
+  <ellipse cx="88" cy="83" rx="6" ry="7" fill="#fff"/>
+  <ellipse cx="62" cy="84" rx="3.4" ry="4" fill="#3a2416"/>
+  <ellipse cx="88" cy="84" rx="3.4" ry="4" fill="#3a2416"/>
+  <circle cx="63.5" cy="82" r="1.2" fill="#fff"/>
+  <circle cx="89.5" cy="82" r="1.2" fill="#fff"/>
+  <!-- nose -->
+  <path d="M75 86 L71.5 96 Q75 99 78.5 96 Z" fill="#c9956e"/>
+  <!-- smile -->
+  <path d="M61 104 Q75 115 89 104" fill="none" stroke="#8a4f3a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="51" cy="97" r="5.5" fill="#e8a090" fill-opacity=".32"/>
+  <circle cx="99" cy="97" r="5.5" fill="#e8a090" fill-opacity=".32"/>
+</svg>

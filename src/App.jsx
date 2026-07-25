@@ -1,19 +1,38 @@
 import { useEffect, useState } from 'react'
 import { calculateWinner, getBestComputerMove } from './gameLogic'
+import rakeshImg from './assets/rakesh.png'
+import himanshuImg from './assets/himanshu.png'
 import './App.css'
 
 const EMPTY_BOARD = Array(9).fill(null)
 
-function Square({ value, onClick, isWinning, disabled }) {
+const PHOTO_MARKERS = {
+  X: { name: 'Rakesh', img: rakeshImg },
+  O: { name: 'Himanshu', img: himanshuImg },
+}
+
+function Square({ value, onClick, isWinning, disabled, usePhotos }) {
+  const photo = usePhotos && value ? PHOTO_MARKERS[value] : null
+
   return (
     <button
       type="button"
-      className={`square${value ? ` square-${value.toLowerCase()}` : ''}${isWinning ? ' winning' : ''}`}
+      className={`square${value ? ` square-${value.toLowerCase()}` : ''}${isWinning ? ' winning' : ''}${photo ? ' square-photo' : ''}`}
       onClick={onClick}
       disabled={disabled || Boolean(value)}
-      aria-label={value ? `Cell marked ${value}` : 'Empty cell'}
+      aria-label={
+        photo
+          ? `Cell marked by ${photo.name}`
+          : value
+            ? `Cell marked ${value}`
+            : 'Empty cell'
+      }
     >
-      {value && <span className="mark">{value}</span>}
+      {photo ? (
+        <img src={photo.img} alt={photo.name} className="mark-photo" />
+      ) : (
+        value && <span className="mark">{value}</span>
+      )}
     </button>
   )
 }
@@ -32,6 +51,14 @@ function ModeSelect({ onSelect }) {
         <button type="button" className="mode-btn" onClick={() => onSelect('pvp')}>
           <span className="mode-label">Human vs Human</span>
           <span className="mode-hint">Pass &amp; play on one device</span>
+        </button>
+        <button type="button" className="mode-btn mode-btn-faces" onClick={() => onSelect('faces')}>
+          <span className="mode-faces">
+            <img src={rakeshImg} alt="" />
+            <img src={himanshuImg} alt="" />
+          </span>
+          <span className="mode-label">Rakesh vs Himanshu</span>
+          <span className="mode-hint">Play with photo markers</span>
         </button>
       </div>
     </div>
@@ -90,11 +117,18 @@ function NameForm({ onStart, onBack }) {
   )
 }
 
-function WinnerBanner({ name, onPlayAgain, onChangeMode }) {
+function WinnerBanner({ name, photo, onPlayAgain, onChangeMode }) {
   return (
     <div className="winner-overlay" role="dialog" aria-labelledby="winner-title">
       <div className="winner-card">
-        <img src="/trophy.svg" alt="Trophy" className="trophy" />
+        {photo ? (
+          <>
+            <img src={photo} alt={name} className="winner-photo" />
+            <img src="/trophy.svg" alt="" className="trophy trophy-small" aria-hidden="true" />
+          </>
+        ) : (
+          <img src="/trophy.svg" alt="Trophy" className="trophy" />
+        )}
         <p className="winner-eyebrow">Winner</p>
         <h2 id="winner-title" className="winner-name">{name}</h2>
         <p className="winner-message">takes the trophy!</p>
@@ -111,6 +145,12 @@ function WinnerBanner({ name, onPlayAgain, onChangeMode }) {
   )
 }
 
+function modeLabel(mode) {
+  if (mode === 'cpu') return 'Human vs Computer'
+  if (mode === 'faces') return 'Rakesh vs Himanshu'
+  return 'Human vs Human'
+}
+
 function App() {
   const [mode, setMode] = useState(null)
   const [screen, setScreen] = useState('mode')
@@ -123,8 +163,14 @@ function App() {
   const { winner, line } = calculateWinner(squares)
   const gameOver = Boolean(winner)
   const isCpuTurn = mode === 'cpu' && !xIsNext && !gameOver
-  const showWinnerBanner = mode === 'pvp' && winner && winner !== 'draw'
+  const usePhotos = mode === 'faces'
+  const showWinnerBanner =
+    (mode === 'pvp' || mode === 'faces') && winner && winner !== 'draw'
   const winnerName = winner === 'X' || winner === 'O' ? names[winner] : ''
+  const winnerPhoto =
+    usePhotos && (winner === 'X' || winner === 'O')
+      ? PHOTO_MARKERS[winner].img
+      : null
 
   function recordResult(board) {
     const { winner: result } = calculateWinner(board)
@@ -161,6 +207,9 @@ function App() {
     setMode(selectedMode)
     if (selectedMode === 'pvp') {
       setScreen('names')
+    } else if (selectedMode === 'faces') {
+      setNames({ X: 'Rakesh', O: 'Himanshu' })
+      setScreen('game')
     } else {
       setNames({ X: 'You', O: 'Computer' })
       setScreen('game')
@@ -234,9 +283,7 @@ function App() {
       <main className="game">
         <header className="game-header">
           <p className="brand">Tic Tac Toe</p>
-          <p className="mode-tag">
-            {mode === 'cpu' ? 'Human vs Computer' : 'Human vs Human'}
-          </p>
+          <p className="mode-tag">{modeLabel(mode)}</p>
         </header>
 
         <p className={`status${gameOver ? ' status-end' : ''}`} key={statusText()}>
@@ -245,7 +292,18 @@ function App() {
 
         <div className="scoreboard" aria-label="Score">
           <div className="score">
-            <span className="score-label">{mode === 'cpu' ? 'You (X)' : names.X}</span>
+            <span className="score-label">
+              {usePhotos ? (
+                <span className="score-player">
+                  <img src={PHOTO_MARKERS.X.img} alt="" className="score-avatar" />
+                  {names.X}
+                </span>
+              ) : mode === 'cpu' ? (
+                'You (X)'
+              ) : (
+                names.X
+              )}
+            </span>
             <span className="score-value">{scores.X}</span>
           </div>
           <div className="score">
@@ -253,7 +311,18 @@ function App() {
             <span className="score-value">{scores.draws}</span>
           </div>
           <div className="score">
-            <span className="score-label">{mode === 'cpu' ? 'CPU (O)' : names.O}</span>
+            <span className="score-label">
+              {usePhotos ? (
+                <span className="score-player">
+                  <img src={PHOTO_MARKERS.O.img} alt="" className="score-avatar" />
+                  {names.O}
+                </span>
+              ) : mode === 'cpu' ? (
+                'CPU (O)'
+              ) : (
+                names.O
+              )}
+            </span>
             <span className="score-value">{scores.O}</span>
           </div>
         </div>
@@ -266,6 +335,7 @@ function App() {
               onClick={() => handleClick(index)}
               isWinning={line?.includes(index)}
               disabled={gameOver || thinking || isCpuTurn}
+              usePhotos={usePhotos}
             />
           ))}
         </div>
@@ -283,6 +353,7 @@ function App() {
       {showWinnerBanner && (
         <WinnerBanner
           name={winnerName}
+          photo={winnerPhoto}
           onPlayAgain={resetBoard}
           onChangeMode={changeMode}
         />
